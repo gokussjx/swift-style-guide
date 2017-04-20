@@ -575,6 +575,25 @@ if let unwrappedSubview = optionalSubview {
 }
 ```
 
+**NOTE**: It's good to note that the unwrapping shown above is applied to reference type (`class`). In value type cases such as `struct` or `enum`, the any modifications would only be applicable within the local scope, and not reflect over to the optional being modified.
+
+```swift
+struct Alpha {
+  var x: Int
+  var y: Int
+}
+
+var alpha: Alpha? = Alpha.init(x: 1, y: 2)
+
+if var alpha = alpha {
+  alpha.x = 5
+  alpha.y = 6
+}
+
+// alpha?.x is still 1
+// alpha?.y is still 2
+```
+
 ### Lazy Initialization
 
 Consider using lazy initialization for finer grain control over object lifetime. This is especially true for `UIViewController` that loads views lazily. You can either use a closure that is immediately called `{ }()` or call a private factory method. Example:
